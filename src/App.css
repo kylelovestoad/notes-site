@@ -2,6 +2,43 @@
   text-align: center;
 }
 
+.tab-bar {
+  overflow: hidden;
+  border: 1px solid #aaa;
+  background-color: #ccc;
+  padding: 10px 25px;
+  margin: 10px 25px;
+}
+
+.tab-bar .tab {
+  background-color: #ccc;
+  border: none;
+  outline: none;
+  transition: 0.3s;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.tab-bar .tab.active {
+  background-color: #bbb;
+}
+
+.tab:hover {
+  background-color: #bbb;
+}
+
+.note {
+  width: 700px;
+  height: 500px;
+  font-size: 24px;
+  resize: none;
+}
+
+.hidden {
+  display: none;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
