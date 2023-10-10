@@ -1,12 +1,13 @@
-import React, { useState, ChangeEvent } from "react";
-import { TabBar } from "./TabBar";
-import { NoteCreator } from "./NoteCreator";
+import React, {ChangeEvent, useState} from "react";
+import {TabBar} from "./TabBar";
+import {NoteCreator} from "./NoteCreator";
 import '../App.css';
-import {Exporter} from "./Exporter";
+import {NoteExporter} from "./NoteExporter";
 
-interface Tab {
+interface Skeleton {
   id: number;
   name: string;
+  content: string;
 }
 
 function App() {
@@ -14,46 +15,56 @@ function App() {
 
   const [activeTab, setActiveTab] = useState<number>(0);
 
-  const [activeNoteContent, setActiveNoteContent] = useState<string>("")
-
-  const createTab = (index: number): Tab => {
+  /**
+   * Creates a skeleton object to store basic values of the tab and note components
+   * @param index
+   * @return Skeleton a skeleton object representing a tab and its associated note
+   */
+  const createSkeleton = (index: number): Skeleton => {
     let name;
+
     // Tab names can't be empty since the button would format strangely. Also for better UX
-    if (input === "") {
-      name = "Untitled Note";
-    } else {
-      name = input;
-    }
+    name = input === "" ? "Untitled Note" : input
 
     return {
       id: index,
-      name: name
+      name: name,
+      content: ""
     };
   };
 
-  const [tabs, setTabs] = useState<Tab[]>([createTab(0)]);
+  const [skeletons, setSkeletons] = useState<Skeleton[]>([createSkeleton(0)]);
+
+  const updateSkeletonContent = (index: number, content: string): void => {
+    const newSkeletons = skeletons.slice()
+    newSkeletons[activeTab].content = content
+    setSkeletons(newSkeletons)
+  }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
+
+  
 
   return (
     <div className="App">
       <NoteCreator
-        onClick={() => {
-          setTabs([...tabs, createTab(tabs.length)])
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+          e.preventDefault()
+          setSkeletons([...skeletons, createSkeleton(skeletons.length)]);
           // Sets the active tab to the new one for better UX.
           // The user probably wants to make a new tab to immediately write into
-          setActiveTab(tabs.length);
+          setActiveTab(skeletons.length);
         }}
         onChange={handleChange}
       />
       <TabBar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        setActiveNoteContent={setActiveNoteContent}
+        setNoteContent={(content: string) => updateSkeletonContent(activeTab, content)}
       >
-        {tabs}
+        {skeletons}
       </TabBar>
-      <Exporter activeTabName={tabs[activeTab].name} activeNoteContent={activeNoteContent} />
+      <NoteExporter activeTabName={skeletons[activeTab].name} activeNoteContent={skeletons[activeTab].content}/>
     </div>
   );
 }

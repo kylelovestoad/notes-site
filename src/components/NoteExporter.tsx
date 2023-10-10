@@ -4,7 +4,7 @@ interface ExporterProps {
   activeNoteContent: string
   activeTabName: string
 }
-export function Exporter(props: ExporterProps) {
+export function NoteExporter(props: ExporterProps) {
 
   return (
     <a

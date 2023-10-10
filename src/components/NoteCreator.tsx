@@ -1,15 +1,18 @@
-import React, { ChangeEvent, MouseEventHandler } from 'react';
+import React, {ChangeEvent, FormEventHandler} from 'react';
 
 interface NoteCreatorProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
 }
 
 export function NoteCreator(props: NoteCreatorProps) {
   return (
     <>
-      <input onChange={props.onChange}></input>
-      <button onClick={props.onClick}>New!</button>
+      <form onSubmit={props.onSubmit}>
+        <label htmlFor="name" ></label>
+        <input id="name" type="text" onChange={props.onChange}></input>
+        <button type="submit">New!</button>
+      </form>
     </>
   )
 }

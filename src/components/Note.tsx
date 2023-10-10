@@ -2,20 +2,21 @@ import {ChangeEvent} from "react";
 
 interface NoteProps {
   isActive: boolean
-  setActiveNoteContent: (content: string) => void
+  setNoteContent: (content: string) => void
 }
 
-export function Note({isActive, setActiveNoteContent}: NoteProps) {
+export function Note({isActive, setNoteContent}: NoteProps) {
 
   /**
    * Allows for other nodes to access the active content
    * @param e The change event
    */
   const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    if (isActive) {
-      setActiveNoteContent(e.target.value)
-    }
+    // This should never have to be checked if the note is active since it is only editable when activated
+    setNoteContent(e.target.value)
   }
+
+
 
   return (
     <textarea
