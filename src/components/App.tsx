@@ -11,13 +11,14 @@ interface Skeleton {
 }
 
 function App() {
+  
   const [input, setInput] = useState<string>("");
 
   const [activeTab, setActiveTab] = useState<number>(0);
 
   /**
    * Creates a skeleton object to store basic values of the tab and note components
-   * @param index
+   * @param index The index for the tab and note to be at
    * @return Skeleton a skeleton object representing a tab and its associated note
    */
   const createSkeleton = (index: number): Skeleton => {
@@ -35,7 +36,17 @@ function App() {
 
   const [skeletons, setSkeletons] = useState<Skeleton[]>([createSkeleton(0)]);
 
-  const updateSkeletonContent = (index: number, content: string): void => {
+  /**
+   * Updates the content of the skeleton, used for the notes
+   * @param content The content to set
+   */
+  const updateSkeletonContent = (content?: string): void => {
+
+    if (content === undefined) {
+      return;
+    }
+
+    // Makes a slice since state should not be appended to, only set
     const newSkeletons = skeletons.slice()
     newSkeletons[activeTab].content = content
     setSkeletons(newSkeletons)
@@ -60,11 +71,24 @@ function App() {
       <TabBar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        setNoteContent={(content: string) => updateSkeletonContent(activeTab, content)}
+        setNoteContent={(content?: string) => updateSkeletonContent(content)}
       >
         {skeletons}
       </TabBar>
-      <NoteExporter activeTabName={skeletons[activeTab].name} activeNoteContent={skeletons[activeTab].content}/>
+      <NoteExporter
+        activeTabName={skeletons[activeTab].name}
+        activeNoteContent={skeletons[activeTab].content}
+        buttonText="Export as text"
+        exportType="text/plain"
+        fileExtension=".txt"
+      />
+      <NoteExporter
+        activeTabName={skeletons[activeTab].name}
+        activeNoteContent={skeletons[activeTab].content}
+        buttonText="Export as markdown"
+        exportType="text/markdown"
+        fileExtension=".md"
+      />
     </div>
   );
 }

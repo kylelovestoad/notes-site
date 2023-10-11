@@ -3,7 +3,7 @@
 }
 
 * {
-  font-size: 18px;
+  /*font-size: 18px;*/
   transition: 0.3s;
   background-color: #000d1a;
   color: #fff;
@@ -61,11 +61,10 @@ button:hover {
 }
 
 .note {
-  width: 80vw;
-  height: 70vh;
-  padding: 1vh 1vw;
+  margin: 1vh 1vw 1vh 1vw;
+  height: 3vh;
   resize: none;
-  justify-content: center;
+  /*justify-content: center;*/
   border: 1px groove;
   border-radius: 5px;
 }
